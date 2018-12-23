@@ -1,0 +1,29 @@
+.pre-scrollable::-webkit-scrollbar-track {
+    border-radius: 2px;
+    background-color: transparent;
+}
+
+.pre-scrollable::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+}
+
+.pre-scrollable::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: $scrollbar-light;
+}
+
+body::-webkit-scrollbar-track {
+    border-radius: 2px;
+    background-color: transparent;
+}
+
+body::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: $scrollbar-dark;
+}

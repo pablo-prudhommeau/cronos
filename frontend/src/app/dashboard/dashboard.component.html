@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-xl-5 grid-margin stretch-card">
+        <div class="card card-map">
+            <div class="card-body">
+                <div class="clearfix">
+                    <div class="float-left">
+                        <i class="mdi mdi-cube text-danger icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                        <h3 class="text-right">Current map</h3>
+                        <div class="fluid-container"></div>
+                    </div>
+                </div>
+                <div class="mb-5 mt-3">
+                    <h3 class="font-weight-medium text-right mb-0" *ngIf="currentMap !== undefined" [innerHTML]="currentMap.name | mpStyle"></h3>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <i class="fa fa-address-book fa-fw icon-sm mr-1 align-middle" aria-hidden="true"></i>
+                        <span class="text-muted ml-1">Author</span>
+                    </div>
+                    <div class="col-sm-8" *ngIf="currentMap !== undefined" [innerHTML]="currentMap.author.nickname | mpStyle"></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <i class="fa fa-smile-o fa-fw icon-sm mr-1 align-middle" aria-hidden="true"></i>
+                        <span class="text-muted ml-1">Top 1 local</span>
+                    </div>
+                    <div class="col-sm-8" *ngIf="getBestRecord() !== undefined" [innerHTML]="getBestRecord().player.nickname | mpStyle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-7 grid-margin stretch-card">
+        <div class="card card-chat">
+            <div class="card-body">
+                <div class="clearfix">
+                    <div class="float-left">
+                        <i class="mdi mdi-receipt text-warning icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                        <h3 class="text-right">Player chat</h3>
+                    </div>
+                </div>
+                <div id="dashboard-chat" class="mt-3 chat-content pre-scrollable style-1" #scrollMe (scroll)="onScroll($event)">
+                    <div class="mb-2 chat-message row" *ngFor="let message of messageList;" [@filterAnimation]="heroTotal">
+                        <div class="col-sm-8"><span [innerHTML]="message.player.nickname | mpStyle"></span> : <span [innerHTML]="message.message | mpStyle"></span></div>
+                        <div class="col-sm-4 text-muted float-right text-right text-justify message-datetime">{{message.insertedOn | date:'medium'}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card card-player-list">
+            <div class="card-body">
+                <h3>Player list</h3>
+                <p class="text-muted mt-3 mb-0" *ngIf="playerList.length == 0">
+                    No player connected
+                </p>
+                <ul class="player-list">
+                    <li *ngFor="let player of playerList">
+                        <span [innerHTML]="player.nickname | mpStyle"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

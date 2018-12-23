@@ -1,0 +1,8 @@
+**/node_modules/**
+**/.idea/**
+**/.vscode/**
+**/.editorconfig
+**/.project
+**/.settings/*
+**/dist/**
+**/package-lock.json
