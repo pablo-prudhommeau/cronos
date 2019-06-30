@@ -25,12 +25,6 @@ async function bootstrap() {
         }
     });
 
-    if (process.env.NODE_ENV !== undefined) {
-        dotenv.config({
-            path: `${process.env.NODE_ENV}.env`
-        });
-    }
-
     const app = await NestFactory.create(AppModule);
     await app.listen(3000);
 

@@ -8,7 +8,7 @@ import {Logger} from 'log4js';
 import {GbxMap} from './gbx-map';
 import {GbxPlayerChat} from './gbx-player-chat';
 import {GbxPlayerInfo} from './gbx-player-info';
-import {ConfigService} from 'nestjs-config';
+import {ConfigService} from '../config/config.service';
 
 @Injectable()
 export class GbxService {
@@ -25,7 +25,8 @@ export class GbxService {
 
     connect() {
         this.logger.info('Trying to connect to XML-RPC API...');
-        const client = gbxRemote.createClient(this.configService.get('maniaplanet-rpc.port'), this.configService.get('maniaplanet-rpc.host'));
+
+        const client = gbxRemote.createClient(this.configService.getString('MANIAPLANET_RPC_PORT'), this.configService.getString('MANIAPLANET_RPC_HOST'));
         this.client = client;
 
         client.on('error', (error) => {
@@ -36,8 +37,8 @@ export class GbxService {
             this.logger.info('Successfully connected to XML-RPC API !');
             this.logger.info('Trying to authenticate to XML-RPC API...');
             client.query('Authenticate', [
-                this.configService.get('maniaplanet-rpc.username'),
-                this.configService.get('maniaplanet-rpc.password')
+                this.configService.getString('MANIAPLANET_RPC_USERNAME'),
+                this.configService.getString('MANIAPLANET_RPC_PASSWORD')
             ]).then((data) => {
                 if (data === true) {
                     this.logger.info('Successfully authenticated to XML-RPC API !');
