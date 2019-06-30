@@ -17,7 +17,6 @@ import {ManiaplanetStylePipe} from './pipes/maniaplanet-style.pipe';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToolsComponent} from './tools/tools.component';
 import {HttpClientModule} from '@angular/common/http';
-import {LoginComponent} from './login/login.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +27,6 @@ import {LoginComponent} from './login/login.component';
         DashboardComponent,
         ChatComponent,
         ToolsComponent,
-        LoginComponent,
         ManiaplanetStylePipe
     ],
     imports: [
