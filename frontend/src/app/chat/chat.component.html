@@ -1,14 +1,31 @@
-<h2>Filter/Stagger</h2>
-
-<form>
-    <input #criteria (input)="updateCriteria(criteria.value)" placeholder="Search Heroes"/>
-</form>
-
-<ul class="heroes" [@filterAnimation]="heroTotal">
-    <li *ngFor="let hero of heroes" class="hero">
-        <div class="inner">
-            <span class="badge">{{ hero.id }}</span>
-            <span>{{ hero.name }}</span>
+<div class="row">
+    <div class="col-xl-12 grid-margin stretch-card">
+        <div class="card card-map">
+            <div class="card-body">
+                <div class="mt-3 chat-content pre-scrollable style-1">
+                    <div class="mb-2 chat-message" *ngFor="let message of messageList.slice().reverse();" id="chat-message-{{message.messageId}}" #chatMessage>
+                        <div class="chat-message-text" *ngIf="message.player !== null">
+                            <span [innerHTML]="message.player.nickname | maniaplanetStyle"></span> : <span [innerHTML]="message.message | maniaplanetStyle"></span>
+                        </div>
+                        <div class="chat-message-text" *ngIf="message.player === null">
+                            <span [innerHTML]="message.message | maniaplanetStyle"></span>
+                        </div>
+                        <div class="chat-message-datetime text-muted text-right pr-md-3">
+                            <span class="fa fa-clock-o"></span> {{message.insertedOn | date:'HH:mm:ss - dd/MM/yyyy'}}
+                        </div>
+                    </div>
+                </div>
+                <form (ngSubmit)="onNgSubmit()">
+                    <div class="form-group mt-md-5">
+                        <div class="input-group">
+                            <span class="input-group-addon bg-warning" id="colored-addon1">
+                                <i class="mdi mdi-atom text-white"></i>
+                            </span>
+                            <input type="text" class="form-control border-light" placeholder="Type your message" aria-label="Type your message" aria-describedby="colored-addon1" [(ngModel)]="messageForm.message" name="message"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </li>
-</ul>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+@import '../../styles';
+
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-content {
+    width: 300px;
+    background: $darkslategray;
+    padding: 40px;
+    margin-top: 10%;
+}
+
+

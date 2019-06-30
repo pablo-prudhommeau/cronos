@@ -12,15 +12,33 @@ export class GbxService {
 
     private socket;
 
-    connect() {
+    connect(): Promise<void> {
         this.socket = io(document.location.protocol + '//' + document.location.hostname + (environment.production ? '' : ':3000'), {
             secure: environment.production,
-            path: environment.production ? '/ws' : '/socket.io'
+            path: environment.production ? '/ws' : '/socket.io',
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000,
+            reconnectionAttempts: Infinity
+        });
+
+        const socket = this.socket;
+
+        socket.on('connect', function () {
+            socket.emit('player/connect');
+            socket.emit('player/disconnect');
+            socket.emit('player/message');
+            socket.emit('map/change');
+        });
+
+        return new Promise<void>(executor => {
+            this.socket.on('connect', function () {
+                executor();
+            });
         });
     }
 
     subscribeToPlayerConnection(): Observable<Player> {
-        this.socket.emit('player/connect');
         const observable = new Observable<Player>((observer) => {
             this.socket.on('player/connect', (player: Player) => {
                 observer.next(player);
@@ -40,7 +58,6 @@ export class GbxService {
     }
 
     subscribeToMapChange(): Observable<Map> {
-        this.socket.emit('map/change');
         const observable = new Observable<Map>((observer) => {
             this.socket.on('map/change', (map: Map) => {
                 observer.next(map);
@@ -50,7 +67,6 @@ export class GbxService {
     }
 
     subscribeToPlayerMessage(): Observable<Message> {
-        this.socket.emit('player/message');
         const observable = new Observable<Message>((observer) => {
             this.socket.on('player/message', (message: Message) => {
                 observer.next(message);
@@ -67,9 +83,9 @@ export class GbxService {
         });
     }
 
-    getMessageList(): Promise<Message[]> {
+    getMessageList(messageNumber: number): Promise<Message[]> {
         return new Promise<Message[]>(executor => {
-            this.socket.emit('message/list', {}, (messageList: Message[]) => {
+            this.socket.emit('message/list', {messageNumber: messageNumber}, (messageList: Message[]) => {
                 executor(messageList);
             });
         });
@@ -83,10 +99,26 @@ export class GbxService {
         });
     }
 
+    getOnlinePlayerList(): Promise<Player[]> {
+        return new Promise<Player[]>(executor => {
+            this.socket.emit('player/online/list', {}, (playerList: Player[]) => {
+                executor(playerList);
+            });
+        });
+    }
+
     getCurrentMap(): Promise<Map> {
         return new Promise<Map>(executor => {
             this.socket.emit('map/current', {}, (currentMap: Map) => {
                 executor(currentMap);
+            });
+        });
+    }
+
+    sendMessage(message: string): Promise<void> {
+        return new Promise<void>(executor => {
+            this.socket.emit('chat/message/send', {message: message}, () => {
+                executor();
             });
         });
     }

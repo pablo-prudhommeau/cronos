@@ -6,7 +6,7 @@ import {Map} from './map.entity';
 import {Repository} from 'typeorm';
 import {Observable} from 'rxjs';
 import {GbxService} from '../gbx/gbx.service';
-import {GbxMap} from '../gbx/gbx.map';
+import {GbxMap} from '../gbx/gbx-map';
 
 @Injectable()
 export class MapService {

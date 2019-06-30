@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +15,9 @@ import {GbxService} from '../gbx/gbx.service';
 import {ChatComponent} from './chat/chat.component';
 import {ManiaplanetStylePipe} from './pipes/maniaplanet-style.pipe';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToolsComponent} from './tools/tools.component';
+import {HttpClientModule} from '@angular/common/http';
+import {LoginComponent} from './login/login.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +27,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         FooterComponent,
         DashboardComponent,
         ChatComponent,
+        ToolsComponent,
+        LoginComponent,
         ManiaplanetStylePipe
     ],
     imports: [
@@ -32,9 +37,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         RouterModule,
         AppRoutingModule,
         FormsModule,
-        NgbModule
+        NgbModule,
+        ReactiveFormsModule,
+        HttpClientModule
     ],
-    providers: [GbxService],
+    providers: [
+        GbxService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

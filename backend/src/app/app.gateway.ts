@@ -12,6 +12,7 @@ import {PlayerService} from '../player/player.service';
 import {RecordService} from '../record/record.service';
 import {Message} from '../message/message.entity';
 import {MessageService} from '../message/message.service';
+import {InsertResult} from 'typeorm';
 
 @WebSocketGateway()
 export class AppGateway {
@@ -82,19 +83,36 @@ export class AppGateway {
         return this.playerService.getPlayerList();
     }
 
+    @SubscribeMessage('player/online/list')
+    async getOnlinePlayerList(): Promise<Player[]> {
+        return this.playerService.getOnlinePlayerList();
+    }
+
     @SubscribeMessage('map/record/list')
     async getMapRecordList(client, data: any): Promise<Record[]> {
         return this.recordService.getRecordList(data.mapId);
     }
 
     @SubscribeMessage('message/list')
-    async getMessageList(): Promise<Message[]> {
-        return this.messageService.getMessageList();
+    async getMessageList(client, data: any): Promise<Message[]> {
+        return this.messageService.getMessageList(data.messageNumber);
     }
 
     @SubscribeMessage('map/current')
     async getCurrentMap(): Promise<Map> {
         return this.mapService.getCurrentMap();
+    }
+
+    @SubscribeMessage('chat/message/send')
+    async sendChatMessage(client, data: any): Promise<void> {
+        return new Promise<void>(async executor => {
+            await this.gbxService.sendMessage(data.message);
+            const value: InsertResult = await this.messageService.insertConsoleMessage(data.message);
+            const messageId: number = value.identifiers.find(() => true).messageId;
+            const message: Message = await this.messageService.getMessageById(messageId);
+            this.playerService.playerMessageSubject.next(message);
+            executor(data);
+        });
     }
 
 }

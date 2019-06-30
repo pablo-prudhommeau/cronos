@@ -1,70 +1,51 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Message} from '../../gbx/message';
+import {GbxService} from '../../gbx/gbx.service';
+import {MessageForm} from './message-form';
+
+declare var MPStyle: any;
 
 @Component({
-    selector: 'app-hero-list-page',
     templateUrl: 'chat.component.html',
     styleUrls: ['chat.component.scss'],
-    animations: [
-        trigger('pageAnimations', [
-            transition(':enter', [
-                query('.hero, form', [
-                    style({opacity: 0, transform: 'translateY(-100px)'}),
-                    stagger(-30, [
-                        animate('500ms cubic-bezier(0.35, 0, 0.25, 1)', style({opacity: 1, transform: 'none'}))
-                    ])
-                ])
-            ])
-        ]),
-        trigger('filterAnimation', [
-            transition(':enter, * => 0, * => -1', []),
-            transition(':increment', [
-                query(':enter', [
-                    style({opacity: 0, width: '0px'}),
-                    stagger(50, [
-                        animate('300ms ease-out', style({opacity: 1, width: '*'})),
-                    ]),
-                ], {optional: true})
-            ]),
-            transition(':decrement', [
-                query(':leave', [
-                    stagger(50, [
-                        animate('300ms ease-out', style({opacity: 0, width: '0px'})),
-                    ]),
-                ])
-            ]),
-        ]),
-    ]
 })
 export class ChatComponent implements OnInit {
-    @HostBinding('@pageAnimations')
-    public animatePage = true;
 
-    _heroes = [];
-    heroTotal = -1;
-    HEROES = [{
-        name: 'ok'
-    }];
+    messageForm = new MessageForm();
+    messageList: Message[] = [];
 
-    get heroes() {
-        return this._heroes;
-    }
+    constructor(private gbxService: GbxService) {}
+
+    @ViewChildren('chatMessage') chatMessageList: QueryList<any>;
 
     ngOnInit() {
-
-        this._heroes = this.HEROES;
+        this.gbxService.connect().then(() => {
+            this.initializeDashboardData();
+        });
     }
 
-    updateCriteria(criteria: string) {
-        criteria = criteria ? criteria.trim() : '';
+    initializeDashboardData() {
+        this.gbxService.getMessageList(50).then((messageList: Message[]) => {
+            this.messageList = messageList;
 
-        this._heroes = this.HEROES.filter(hero => hero.name.toLowerCase().includes(criteria.toLowerCase()));
-        const newTotal = this.heroes.length;
+            this.gbxService.subscribeToPlayerMessage().subscribe((message: Message) => {
+                this.messageList.unshift(message);
+            });
 
-        if (this.heroTotal !== newTotal) {
-            this.heroTotal = newTotal;
-        } else if (!criteria) {
-            this.heroTotal = -1;
+            this.chatMessageList.changes.subscribe(changes => {
+                changes.last.nativeElement.scrollIntoView({behavior: 'smooth', block: 'center'});
+            });
+        });
+    }
+
+    onNgSubmit(): void {
+        const messageForm = this.messageForm;
+        if (messageForm.message !== '') {
+            const maniaplanetStylizedMessage = '$c06◎ Message from console > $g' + messageForm.message;
+            this.gbxService.sendMessage(maniaplanetStylizedMessage).then(() => {
+                messageForm.message = '';
+            });
         }
     }
+
 }

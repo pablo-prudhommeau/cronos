@@ -4,7 +4,7 @@ import * as Parser from '@sh4444dow/maniaplanet-style-js-parser';
 
 declare var MPStyle: any;
 
-@Pipe({name: 'mpStyle', pure: false})
+@Pipe({name: 'maniaplanetStyle', pure: false})
 export class ManiaplanetStylePipe implements PipeTransform {
 
     parser: any;

@@ -4,18 +4,19 @@ import * as log4js from 'log4js';
 import {Logger} from 'log4js';
 import {Observable, Subject} from 'rxjs';
 import {Player} from './player.entity';
-import {GbxPlayer} from '../gbx/gbx.player';
+import {GbxPlayer} from '../gbx/gbx-player';
 import {GbxService} from '../gbx/gbx.service';
 import {InsertResult, Repository} from 'typeorm';
 import {Message} from '../message/message.entity';
-import {GbxPlayerChat} from '../gbx/gbx.player-chat';
+import {GbxPlayerChat} from '../gbx/gbx-player-chat';
 import {MessageService} from '../message/message.service';
+import {GbxPlayerInfo} from '../gbx/gbx-player-info';
 
 @Injectable()
 export class PlayerService {
 
     private logger: Logger = log4js.getLogger();
-    private readonly playerMessageSubject: Subject<Message> = new Subject();
+    public readonly playerMessageSubject: Subject<Message> = new Subject();
 
     constructor(
         private readonly gbxService: GbxService,
@@ -28,9 +29,12 @@ export class PlayerService {
             }
             const player: Player = await this.playerRepository.findOne({
                 where: {
-                    Login: gbxPlayerChat.Login
+                    login: gbxPlayerChat.Login
                 }
             });
+            if (player === undefined) {
+                return;
+            }
             const message = new Message();
             message.player = player;
             message.message = gbxPlayerChat.Text;
@@ -47,7 +51,7 @@ export class PlayerService {
             GbxService.playerConnectionSubject.subscribe(async (gbxPlayer: GbxPlayer) => {
                 const player: Player = await this.playerRepository.findOne({
                     where: {
-                        Login: gbxPlayer.Login
+                        login: gbxPlayer.Login
                     }
                 });
                 if (player !== undefined) {
@@ -64,7 +68,7 @@ export class PlayerService {
             GbxService.playerDisconnectionSubject.subscribe(async (gbxPlayer: GbxPlayer) => {
                 const player: Player = await this.playerRepository.findOne({
                     where: {
-                        Login: gbxPlayer.Login
+                        login: gbxPlayer.Login
                     }
                 });
                 if (player !== undefined) {
@@ -87,12 +91,23 @@ export class PlayerService {
 
     getPlayerList(): Promise<Player[]> {
         return new Promise<Player[]>(async resolve => {
+            const playerList = await this.playerRepository.find({
+                order: {
+                    lastVisit: 'DESC'
+                }
+            });
+            resolve(playerList);
+        });
+    }
+
+    getOnlinePlayerList(): Promise<Player[]> {
+        return new Promise<Player[]>(async resolve => {
             const playerList: Player[] = [];
-            const gbxPlayerList: GbxPlayer[] = await this.gbxService.getPlayerList();
-            for (const gbxPlayer of gbxPlayerList) {
+            const gbxPlayerInfoList: GbxPlayerInfo[] = await this.gbxService.getPlayerList();
+            for (const gbxPlayer of gbxPlayerInfoList) {
                 const player: Player = await this.playerRepository.findOne({
                     where: {
-                        Login: gbxPlayer.Login
+                        login: gbxPlayer.Login
                     }
                 });
                 playerList.push(player);

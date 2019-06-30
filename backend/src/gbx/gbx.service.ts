@@ -2,11 +2,12 @@ import * as gbxRemote from 'gbxremote';
 import {GbxRemote} from 'gbxremote';
 import {Injectable} from '@nestjs/common';
 import {Subject} from 'rxjs';
-import {GbxPlayer} from './gbx.player';
+import {GbxPlayer} from './gbx-player';
 import * as log4js from 'log4js';
 import {Logger} from 'log4js';
-import {GbxMap} from './gbx.map';
-import {GbxPlayerChat} from './gbx.player-chat';
+import {GbxMap} from './gbx-map';
+import {GbxPlayerChat} from './gbx-player-chat';
+import {GbxPlayerInfo} from './gbx-player-info';
 import {ConfigService} from 'nestjs-config';
 
 @Injectable()
@@ -52,12 +53,20 @@ export class GbxService {
                 this.logger.error('Error when querying server:', err);
             });
 
-            client.on('ManiaPlanet.PlayerConnect', (data: GbxPlayer) => {
-                GbxService.playerConnectionSubject.next(data);
+            client.on('ManiaPlanet.PlayerConnect', (data: any[]) => {
+                const gbxPlayer: GbxPlayer = {
+                    Login: data[0],
+                    IsSpectator: data[1]
+                };
+                GbxService.playerConnectionSubject.next(gbxPlayer);
             });
 
-            client.on('ManiaPlanet.PlayerDisconnect', (data: GbxPlayer) => {
-                GbxService.playerDisconnectionSubject.next(data);
+            client.on('ManiaPlanet.PlayerDisconnect', (data: any[]) => {
+                const gbxPlayer: GbxPlayer = {
+                    Login: data[0],
+                    IsSpectator: data[1]
+                };
+                GbxService.playerDisconnectionSubject.next(gbxPlayer);
             });
 
             client.on('ManiaPlanet.PlayerChat', (data: any[]) => {
@@ -73,10 +82,6 @@ export class GbxService {
             client.on('ManiaPlanet.BeginMap', (data) => {
                 GbxService.beginMapSubject.next(data[0]);
             });
-
-            client.on('callback', (method, params) => {
-                // this.logger.debug('Callback from server: %s - %d params', method, params.length);
-            });
         });
 
     }
@@ -85,15 +90,15 @@ export class GbxService {
         gbxRemote.client.terminate();
     }
 
-    getPlayerList(): Promise<GbxPlayer[]> {
+    getPlayerList(): Promise<GbxPlayerInfo[]> {
         const client = this.client;
         return new Promise(executor => {
-            client.query('GetPlayerList', [1000, 0]).then((gbxPlayerList: GbxPlayer[]) => {
-                gbxPlayerList = gbxPlayerList.filter((gbxPlayer: GbxPlayer) => {
-                    const isServer = String(gbxPlayer.Flags).substring(3, 4) === '1';
+            client.query('GetPlayerList', [1000, 0]).then((gbxPlayerInfoList: GbxPlayerInfo[]) => {
+                gbxPlayerInfoList = gbxPlayerInfoList.filter((gbxPlayerInfo: GbxPlayerInfo) => {
+                    const isServer = String(gbxPlayerInfo.Flags).substring(3, 4) === '1';
                     return !isServer;
                 });
-                executor(gbxPlayerList);
+                executor(gbxPlayerInfoList);
             });
         });
     }
@@ -107,11 +112,11 @@ export class GbxService {
         });
     }
 
-    getChatLineList(): Promise<GbxPlayerChat[]> {
+    sendMessage(message: string): Promise<void> {
         const client = this.client;
         return new Promise(executor => {
-            client.query('GetChatLines').then((data: GbxPlayerChat[]) => {
-                executor(data);
+            client.query('ChatSendServerMessage', [message]).then(() => {
+                executor();
             });
         });
     }

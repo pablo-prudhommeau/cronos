@@ -1,6 +1,4 @@
 import {Module} from '@nestjs/common';
-import {AppController} from './app.controller';
-import {AppService} from './app.service';
 import {AppGateway} from './app.gateway';
 import {PlayerModule} from '../player/player.module';
 import {GbxModule} from '../gbx/gbx.module';
@@ -12,15 +10,12 @@ import * as path from 'path';
 import {MessageModule} from '../message/message.module';
 
 @Module({
-    controllers: [
-        AppController
-    ],
+    controllers: [],
     providers: [
-        AppGateway,
-        AppService
+        AppGateway
     ],
     imports: [
-        ConfigModule.load(path.resolve(__dirname, '../config/**/*.js')),
+        ConfigModule.load(path.resolve(__dirname, '../config/**/*.ts')),
         TypeOrmModule.forRootAsync({
             useFactory: (config: ConfigService) => config.get('database'),
             inject: [ConfigService]
