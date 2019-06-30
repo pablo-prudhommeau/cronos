@@ -7,7 +7,7 @@ import {Setting} from '../gen/setting.entity';
 import {Time} from '../gen/time.entity';
 import {Message} from '../message/message.entity';
 
-@Entity('uaseco_players', {schema: 'uaseco_dev'})
+@Entity('uaseco_players', {schema: process.env.DB_NAME})
 @Index('Login', ['login'], {unique: true})
 @Index('Continent', ['continent'])
 @Index('Nation', ['nation'])

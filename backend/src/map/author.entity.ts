@@ -1,7 +1,7 @@
 import {Column, Entity, Index, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Map} from './map.entity';
 
-@Entity('uaseco_authors', {schema: 'uaseco_dev'})
+@Entity('uaseco_authors', {schema: process.env.DB_NAME})
 @Index('Login', ['login'], {unique: true})
 @Index('Continent', ['continent'])
 @Index('Nation', ['nation'])

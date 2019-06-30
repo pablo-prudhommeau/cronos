@@ -2,7 +2,7 @@ import {Column, Entity, Index, JoinColumn, OneToOne} from 'typeorm';
 import {Map} from '../map/map.entity';
 import {Player} from '../player/player.entity';
 
-@Entity('uaseco_ratings', {schema: 'uaseco_dev'})
+@Entity('uaseco_ratings', {schema: process.env.DB_NAME})
 @Index('MapId', ['map'])
 @Index('PlayerId', ['player'])
 @Index('Date', ['date'])

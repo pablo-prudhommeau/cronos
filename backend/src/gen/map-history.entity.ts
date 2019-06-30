@@ -1,7 +1,7 @@
 import {Column, Entity, Index, JoinColumn, OneToOne} from 'typeorm';
 import {Map} from '../map/map.entity';
 
-@Entity('uaseco_maphistory', {schema: 'uaseco_dev'})
+@Entity('uaseco_maphistory', {schema: process.env.DB_NAME})
 @Index('MapId', ['map'])
 @Index('Date', ['date'])
 export class MapHistory {

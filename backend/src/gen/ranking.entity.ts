@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, OneToOne} from 'typeorm';
 import {Player} from '../player/player.entity';
 
-@Entity('uaseco_rankings', {schema: 'uaseco_dev'})
+@Entity('uaseco_rankings', {schema: process.env.DB_NAME})
 export class Ranking {
 
     @OneToOne(type => Player, uaseco_players => uaseco_players.uaseco_rankings, {

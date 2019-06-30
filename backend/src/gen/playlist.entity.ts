@@ -2,7 +2,7 @@ import {Column, Entity, Index, JoinColumn, OneToOne} from 'typeorm';
 import {Map} from '../map/map.entity';
 import {Player} from '../player/player.entity';
 
-@Entity('uaseco_playlist', {schema: 'uaseco_dev'})
+@Entity('uaseco_playlist', {schema: process.env.DB_NAME})
 @Index('Timestamp', ['timestamp'])
 @Index('MapId', ['map'])
 @Index('PlayerId', ['player'])

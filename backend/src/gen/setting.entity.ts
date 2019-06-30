@@ -1,7 +1,7 @@
 import {Column, Entity, Index, JoinColumn, OneToOne} from 'typeorm';
 import {Player} from '../player/player.entity';
 
-@Entity('uaseco_settings', {schema: 'uaseco_dev'})
+@Entity('uaseco_settings', {schema: process.env.DB_NAME})
 @Index('PlayerId', ['player'])
 export class Setting {
 

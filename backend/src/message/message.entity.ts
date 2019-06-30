@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {Player} from '../player/player.entity';
 
-@Entity('alya_messages', {schema: 'uaseco_dev'})
+@Entity('alya_messages', {schema: process.env.DB_NAME})
 export class Message {
 
     @PrimaryGeneratedColumn({

@@ -6,7 +6,7 @@ import {Rating} from '../gen/rating.entity';
 import {Record} from '../record/record.entity';
 import {Time} from '../gen/time.entity';
 
-@Entity('uaseco_maps', {schema: 'uaseco_dev'})
+@Entity('uaseco_maps', {schema: process.env.DB_NAME})
 @Index('Uid', ['uid'], {unique: true})
 @Index('AuthorId', ['author'])
 @Index('AuthorScore', ['authorScore'])
