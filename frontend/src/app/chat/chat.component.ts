@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit {
             });
 
             this.chatMessageList.changes.subscribe(changes => {
-                changes.last.nativeElement.scrollIntoView({behavior: 'smooth', block: 'center'});
+                changes.last.nativeElement.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'start'});
             });
         });
     }

@@ -6,12 +6,18 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-    public samplePagesCollapsed = true;
+
+    public shouldShow = true;
 
     constructor() {
     }
 
+    toggleOffCanvas() {
+        document.querySelector('.sidebar-offcanvas').classList.toggle('active');
+    }
+
     ngOnInit() {
+        document.getElementsByClassName('nav-link')
     }
 
 }

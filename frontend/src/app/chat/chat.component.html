@@ -10,18 +10,18 @@
                         <div class="chat-message-text" *ngIf="message.player === null">
                             <span [innerHTML]="message.message | maniaplanetStyle"></span>
                         </div>
-                        <div class="chat-message-datetime text-muted text-right pr-md-3">
+                        <div class="chat-message-datetime text-muted text-right pr-3">
                             <span class="fa fa-clock-o"></span> {{message.insertedOn | date:'HH:mm:ss - dd/MM/yyyy'}}
                         </div>
                     </div>
                 </div>
                 <form (ngSubmit)="onNgSubmit()">
-                    <div class="form-group mt-md-5">
+                    <div class="form-group mt-5">
                         <div class="input-group">
-                            <span class="input-group-addon bg-warning" id="colored-addon1">
-                                <i class="mdi mdi-atom text-white"></i>
+                            <span class="input-group-addon bg-warning" id="chat-message-addon">
+                                <i class="mdi mdi-comment-processing text-white"></i>
                             </span>
-                            <input type="text" class="form-control border-light" placeholder="Type your message" aria-label="Type your message" aria-describedby="colored-addon1" [(ngModel)]="messageForm.message" name="message"/>
+                            <input type="text" class="form-control border-light" placeholder="Type your message" aria-label="Type your message" aria-describedby="chat-message-addon" [(ngModel)]="messageForm.message" name="message"/>
                         </div>
                     </div>
                 </form>

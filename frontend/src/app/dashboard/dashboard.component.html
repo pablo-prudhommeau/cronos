@@ -51,7 +51,7 @@
                         <div class="chat-message-text" *ngIf="message.player === null">
                             <span [innerHTML]="message.message | maniaplanetStyle"></span>
                         </div>
-                        <div class="chat-message-datetime text-muted text-right pr-md-3">
+                        <div class="chat-message-datetime text-muted text-right pr-3">
                             <span class="fa fa-clock-o"></span> {{message.insertedOn | date:'HH:mm:ss - dd/MM/yyyy'}}
                         </div>
                     </div>
