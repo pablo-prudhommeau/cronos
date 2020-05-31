@@ -1,25 +1,29 @@
+import {Injectable} from '@nestjs/common';
 import * as gbxRemote from 'gbxremote';
 import {GbxRemote} from 'gbxremote';
-import {Injectable} from '@nestjs/common';
-import {Subject} from 'rxjs';
-import {GbxPlayer} from './gbx-player';
 import * as log4js from 'log4js';
 import {Logger} from 'log4js';
+import {Subject} from 'rxjs';
+import {ConfigService} from '../config/config.service';
 import {GbxMap} from './gbx-map';
+import {GbxPlayer} from './gbx-player';
 import {GbxPlayerChat} from './gbx-player-chat';
 import {GbxPlayerInfo} from './gbx-player-info';
-import {ConfigService} from '../config/config.service';
 
 @Injectable()
 export class GbxService {
-
-    private client: GbxRemote;
-    private logger: Logger = log4js.getLogger();
 
     public static playerConnectionSubject: Subject<GbxPlayer> = new Subject<GbxPlayer>();
     public static playerDisconnectionSubject: Subject<GbxPlayer> = new Subject<GbxPlayer>();
     public static playerChatSubject: Subject<GbxPlayerChat> = new Subject<GbxPlayerChat>();
     public static beginMapSubject: Subject<GbxMap> = new Subject<GbxMap>();
+
+    private static MAX_NUMBER_OF_RECONNECTIONS = 5;
+    private static TIME_BETWEEN_RECONNECTION_IN_MILLISECONDS = 5000;
+
+    private client: GbxRemote;
+    private logger: Logger = log4js.getLogger();
+    private numberOfReconnection = 0;
 
     constructor(private readonly configService: ConfigService) {}
 
@@ -29,11 +33,23 @@ export class GbxService {
         const client = gbxRemote.createClient(this.configService.getString('MANIAPLANET_RPC_PORT'), this.configService.getString('MANIAPLANET_RPC_HOST'));
         this.client = client;
 
+        const self = this;
+
         client.on('error', (error) => {
             this.logger.error('Error while connecting to XML-RPC API !', error);
+            if (this.numberOfReconnection >= GbxService.MAX_NUMBER_OF_RECONNECTIONS) {
+                process.exit(1);
+            } else {
+                this.logger.error('Waiting ' + GbxService.TIME_BETWEEN_RECONNECTION_IN_MILLISECONDS / 1000 + ' seconds after reconnect...');
+                setTimeout(function() {
+                    self.connect();
+                    self.numberOfReconnection++;
+                }, GbxService.TIME_BETWEEN_RECONNECTION_IN_MILLISECONDS);
+            }
         });
 
         client.on('connect', () => {
+            this.numberOfReconnection = 0;
             this.logger.info('Successfully connected to XML-RPC API !');
             this.logger.info('Trying to authenticate to XML-RPC API...');
             client.query('Authenticate', [

@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootstrap/scss/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~compass-mixins/lib/compass";
+@import "~compass-mixins/lib/animate";
+$mdi-font-path: "~@mdi/font/fonts";
+@import "~@mdi/font/scss/materialdesignicons";
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
 @import './assets/styles/variables';
-@import "../node_modules/compass-mixins/lib/compass";
-@import "../node_modules/compass-mixins/lib/animate";
-@import "../node_modules/bootstrap/scss/bootstrap";
-@import "../node_modules/mdi/scss/materialdesignicons";
-@import "../node_modules/font-awesome/scss/font-awesome";
 @import "./assets/styles/fonts";
 @import "./assets/styles/functions";
 @import "./assets/styles/mixins/background";

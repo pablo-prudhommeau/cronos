@@ -3,6 +3,7 @@
 .card {
     border: 0;
     background: $darkgray;
+    color: $white-smoke;
     @include border-radius(2px);
 
     .card-body {

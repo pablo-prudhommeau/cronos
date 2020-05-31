@@ -6,3 +6,4 @@
 **/.settings/*
 **/dist/**
 **/package-lock.json
+*.iml

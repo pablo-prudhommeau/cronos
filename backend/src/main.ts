@@ -1,7 +1,6 @@
 import {NestFactory} from '@nestjs/core';
-import {AppModule} from './app/app.module';
 import * as log4js from 'log4js';
-import * as dotenv from 'dotenv';
+import {AppModule} from './app/app.module';
 
 declare const module: any;
 
@@ -26,6 +25,7 @@ async function bootstrap() {
     });
 
     const app = await NestFactory.create(AppModule);
+    app.setGlobalPrefix('app');
     await app.listen(3000);
 
     if (module.hot) {

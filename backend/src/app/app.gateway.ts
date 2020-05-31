@@ -14,7 +14,7 @@ import {Message} from '../message/message.entity';
 import {MessageService} from '../message/message.service';
 import {InsertResult} from 'typeorm';
 
-@WebSocketGateway()
+@WebSocketGateway({path: '/ws'})
 export class AppGateway {
 
     private logger: Logger = log4js.getLogger();

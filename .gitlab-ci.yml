@@ -1,0 +1,51 @@
+image: docker:stable
+
+cache:
+  paths:
+    - backend/node_modules/
+    - frontend/node_modules/
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - deploy
+
+build-backend:
+  image: nestjs/cli:6.12.9
+  stage: build
+  artifacts:
+    paths:
+      - backend
+  script:
+    - cd backend
+    - npm install
+    - nest build
+    - rm -fr src
+
+build-frontend:
+  image: node:10.20.1
+  stage: build
+  artifacts:
+    paths:
+      - frontend/dist/
+  script:
+    - cd frontend
+    - npm install
+    - npm run build:prod
+
+deploy-docker:
+  dependencies:
+    - build-backend
+    - build-frontend
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_REPOSITORY_USERNAME -p $DOCKER_REPOSITORY_PASSWORD docker.nexus.nash.n3xus.xyz
+    - docker build -t docker.nexus.nash.n3xus.xyz/alya .
+    - docker push docker.nexus.nash.n3xus.xyz/alya
