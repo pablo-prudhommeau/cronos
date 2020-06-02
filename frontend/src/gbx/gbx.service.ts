@@ -15,7 +15,7 @@ export class GbxService {
     connect(): Promise<void> {
         this.socket = io(document.location.protocol + '//' + document.location.hostname + (environment.production ? '' : ':3000'), {
             secure: environment.production,
-            path: environment.production ? '/ws' : '/socket.io',
+            path: environment.production ? '/ws' : '/ws/socket.io',
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionDelayMax: 5000,

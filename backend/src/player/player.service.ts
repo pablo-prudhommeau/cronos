@@ -3,25 +3,29 @@ import {InjectRepository} from '@nestjs/typeorm';
 import * as log4js from 'log4js';
 import {Logger} from 'log4js';
 import {Observable, Subject} from 'rxjs';
-import {Player} from './player.entity';
-import {GbxPlayer} from '../gbx/gbx-player';
-import {GbxService} from '../gbx/gbx.service';
 import {InsertResult, Repository} from 'typeorm';
-import {Message} from '../message/message.entity';
+import {ConfigService} from '../config/config.service';
+import {GbxPlayer} from '../gbx/gbx-player';
 import {GbxPlayerChat} from '../gbx/gbx-player-chat';
-import {MessageService} from '../message/message.service';
 import {GbxPlayerInfo} from '../gbx/gbx-player-info';
+import {GbxService} from '../gbx/gbx.service';
+import {Message} from '../message/message.entity';
+import {MessageService} from '../message/message.service';
+import {TelegramService} from '../telegram/telegram.service';
+import {Player} from './player.entity';
 
 @Injectable()
 export class PlayerService {
 
-    private logger: Logger = log4js.getLogger();
     public readonly playerMessageSubject: Subject<Message> = new Subject();
 
+    private logger: Logger = log4js.getLogger();
+
     constructor(
-        private readonly gbxService: GbxService,
-        private readonly messageService: MessageService,
-        @InjectRepository(Player) private readonly playerRepository: Repository<Player>
+            private readonly gbxService: GbxService,
+            private readonly messageService: MessageService,
+            private readonly configService: ConfigService,
+            @InjectRepository(Player) private readonly playerRepository: Repository<Player>
     ) {
         GbxService.playerChatSubject.subscribe(async (gbxPlayerChat: GbxPlayerChat) => {
             if (gbxPlayerChat.PlayerUid === '0') {

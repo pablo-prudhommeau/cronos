@@ -41,8 +41,8 @@ export class ChatComponent implements OnInit {
     onNgSubmit(): void {
         const messageForm = this.messageForm;
         if (messageForm.message !== '') {
-            const maniaplanetStylizedMessage = '$c06◎ Message from console > $g' + messageForm.message;
-            this.gbxService.sendMessage(maniaplanetStylizedMessage).then(() => {
+            const message = messageForm.message;
+            this.gbxService.sendMessage(message).then(() => {
                 messageForm.message = '';
             });
         }

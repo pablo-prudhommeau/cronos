@@ -1,13 +1,15 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {MessageService} from './message.service';
+import {GbxModule} from '../gbx/gbx.module';
 import {Message} from './message.entity';
+import {MessageService} from './message.service';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
             Message
-        ])
+        ]),
+        GbxModule
     ],
     providers: [
         MessageService

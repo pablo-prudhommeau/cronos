@@ -6,11 +6,15 @@ export class ConfigService {
     private readonly envConfig: { [key: string]: string };
 
     constructor(filePath: string) {
-        this.envConfig = dotenv.parse(fs.readFileSync(filePath))
+        this.envConfig = dotenv.parse(fs.readFileSync(filePath));
     }
 
     getString(key: string): string {
         return this.envConfig[key];
+    }
+
+    getNumber(key: string): number {
+        return Number(this.envConfig[key]);
     }
 
 }

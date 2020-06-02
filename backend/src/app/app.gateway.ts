@@ -1,29 +1,31 @@
 import {SubscribeMessage, WebSocketGateway, WsResponse} from '@nestjs/websockets';
-import {Observable, OperatorFunction} from 'rxjs';
-import {GbxService} from '../gbx/gbx.service';
-import {map} from 'rxjs/operators';
 import * as log4js from 'log4js';
 import {Logger} from 'log4js';
+import {Observable, OperatorFunction} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {GbxService} from '../gbx/gbx.service';
 import {Map} from '../map/map.entity';
-import {Record} from '../record/record.entity';
 import {MapService} from '../map/map.service';
-import {Player} from '../player/player.entity';
-import {PlayerService} from '../player/player.service';
-import {RecordService} from '../record/record.service';
 import {Message} from '../message/message.entity';
 import {MessageService} from '../message/message.service';
-import {InsertResult} from 'typeorm';
+import {Player} from '../player/player.entity';
+import {PlayerService} from '../player/player.service';
+import {Record} from '../record/record.entity';
+import {RecordService} from '../record/record.service';
+import {AppService} from './app.service';
 
 @WebSocketGateway({path: '/ws'})
 export class AppGateway {
 
     private logger: Logger = log4js.getLogger();
 
-    constructor(private gbxService: GbxService,
-                private recordService: RecordService,
-                private mapService: MapService,
-                private playerService: PlayerService,
-                private messageService: MessageService
+    constructor(
+            private gbxService: GbxService,
+            private recordService: RecordService,
+            private mapService: MapService,
+            private playerService: PlayerService,
+            private messageService: MessageService,
+            private appService: AppService
     ) {}
 
     @SubscribeMessage('player/connect')
@@ -106,11 +108,7 @@ export class AppGateway {
     @SubscribeMessage('chat/message/send')
     async sendChatMessage(client, data: any): Promise<void> {
         return new Promise<void>(async executor => {
-            await this.gbxService.sendMessage(data.message);
-            const value: InsertResult = await this.messageService.insertConsoleMessage(data.message);
-            const messageId: number = value.identifiers.find(() => true).messageId;
-            const message: Message = await this.messageService.getMessageById(messageId);
-            this.playerService.playerMessageSubject.next(message);
+            this.appService.sendMessageAsConsole(data.message);
             executor(data);
         });
     }

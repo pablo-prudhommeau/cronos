@@ -18,15 +18,18 @@ import {Player} from '../player/player.entity';
 import {PlayerModule} from '../player/player.module';
 import {Record} from '../record/record.entity';
 import {RecordModule} from '../record/record.module';
+import {TelegramModule} from '../telegram/telegram.module';
 import {AppController} from './app.controller';
 import {AppGateway} from './app.gateway';
+import {AppService} from './app.service';
 
 @Module({
     controllers: [
         AppController
     ],
     providers: [
-        AppGateway
+        AppGateway,
+        AppService
     ],
     imports: [
         ConfigModule,
@@ -36,7 +39,7 @@ import {AppGateway} from './app.gateway';
             useFactory: async (configService: ConfigService) => ({
                 type: 'mysql' as 'mysql',
                 host: configService.getString('DB_HOST'),
-                port: 3306,
+                port: configService.getNumber('DB_PORT'),
                 username: configService.getString('DB_USERNAME'),
                 password: configService.getString('DB_PASSWORD'),
                 database: configService.getString('DB_NAME'),
@@ -46,10 +49,11 @@ import {AppGateway} from './app.gateway';
             })
         }),
         PlayerModule,
+        MessageModule,
         GbxModule,
         RecordModule,
         MapModule,
-        MessageModule
+        TelegramModule
     ]
 })
 

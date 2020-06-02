@@ -2,8 +2,9 @@ import {Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import * as log4js from 'log4js';
 import {Logger} from 'log4js';
-import {Message} from './message.entity';
 import {InsertResult, Repository} from 'typeorm';
+import {GbxService} from '../gbx/gbx.service';
+import {Message} from './message.entity';
 
 @Injectable()
 export class MessageService {
@@ -11,7 +12,8 @@ export class MessageService {
     private logger: Logger = log4js.getLogger();
 
     constructor(
-        @InjectRepository(Message) private readonly messageRepository: Repository<Message>
+            private readonly gbxService: GbxService,
+            @InjectRepository(Message) private readonly messageRepository: Repository<Message>
     ) {}
 
     async getMessageList(messageNumber: number): Promise<Message[]> {
@@ -25,13 +27,6 @@ export class MessageService {
     }
 
     async insert(message: Message): Promise<InsertResult> {
-        return await this.messageRepository.insert(message);
-    }
-
-    async insertConsoleMessage(messageText: string): Promise<InsertResult> {
-        const message = new Message();
-        message.message = messageText;
-        message.player = null;
         return await this.messageRepository.insert(message);
     }
 
