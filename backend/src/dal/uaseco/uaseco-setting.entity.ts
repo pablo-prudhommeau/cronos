@@ -1,9 +1,9 @@
 import {Column, Entity, Index, JoinColumn, OneToOne} from 'typeorm';
-import {Player} from '../player/player.entity';
+import {UasecoPlayer} from './uaseco-player.entity';
 
 @Entity('uaseco_settings', {schema: process.env.DB_NAME})
 @Index('PlayerId', ['player'])
-export class Setting {
+export class UasecoSetting {
 
     @Column('varchar', {
         nullable: false,
@@ -13,14 +13,14 @@ export class Setting {
     })
     plugin: string;
 
-    @OneToOne(type => Player, uaseco_players => uaseco_players.uaseco_settings, {
+    @OneToOne(type => UasecoPlayer, uaseco_players => uaseco_players.uaseco_settings, {
         primary: true,
         nullable: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     @JoinColumn({name: 'PlayerId'})
-    player: Player | null;
+    player: UasecoPlayer | null;
 
     @Column('varchar', {
         nullable: false,

@@ -1,11 +1,11 @@
-import {Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn,} from 'typeorm';
-import {Playlist} from '../gen/playlist.entity';
-import {Ranking} from '../gen/ranking.entity';
-import {Rating} from '../gen/rating.entity';
-import {Record} from '../record/record.entity';
-import {Setting} from '../gen/setting.entity';
-import {Time} from '../gen/time.entity';
-import {Message} from '../message/message.entity';
+import {Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {AlyaMessage} from '../alya/alya-message.entity';
+import {UasecoPlaylist} from './uaseco-playlist.entity';
+import {UasecoRanking} from './uaseco-ranking.entity';
+import {UasecoRating} from './uaseco-rating.entity';
+import {UasecoRecord} from './uaseco-record.entity';
+import {UasecoSetting} from './uaseco-setting.entity';
+import {UasecoTime} from './uaseco-time.entity';
 
 @Entity('uaseco_players', {schema: process.env.DB_NAME})
 @Index('Login', ['login'], {unique: true})
@@ -21,7 +21,7 @@ import {Message} from '../message/message.entity';
 @Index('RoundPoints', ['roundPoints'])
 @Index('TeamPoints', ['teamPoints'])
 @Index('WinningPayout', ['winningPayout'])
-export class Player {
+export class UasecoPlayer {
 
     @PrimaryGeneratedColumn({
         type: 'mediumint',
@@ -140,46 +140,46 @@ export class Player {
     })
     winningPayout: number;
 
-    @OneToMany(type => Playlist, uaseco_playlist => uaseco_playlist.player, {
+    @OneToMany(type => UasecoPlaylist, uaseco_playlist => uaseco_playlist.player, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_playlists: Playlist[];
+    uaseco_playlists: UasecoPlaylist[];
 
-    @OneToOne(type => Ranking, uaseco_rankings => uaseco_rankings.player, {
+    @OneToOne(type => UasecoRanking, uaseco_rankings => uaseco_rankings.player, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_rankings: Ranking | null;
+    uaseco_rankings: UasecoRanking | null;
 
-    @OneToOne(type => Rating, uaseco_ratings => uaseco_ratings.player, {
+    @OneToOne(type => UasecoRating, uaseco_ratings => uaseco_ratings.player, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_ratings: Rating | null;
+    uaseco_ratings: UasecoRating | null;
 
-    @OneToOne(type => Record, uaseco_records => uaseco_records.player, {
+    @OneToOne(type => UasecoRecord, uaseco_records => uaseco_records.player, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_records: Record | null;
+    uaseco_records: UasecoRecord | null;
 
-    @OneToOne(type => Setting, uaseco_settings => uaseco_settings.player, {
+    @OneToOne(type => UasecoSetting, uaseco_settings => uaseco_settings.player, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_settings: Setting | null;
+    uaseco_settings: UasecoSetting | null;
 
-    @OneToOne(type => Time, uaseco_times => uaseco_times.player, {
+    @OneToOne(type => UasecoTime, uaseco_times => uaseco_times.player, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_times: Time | null;
+    uaseco_times: UasecoTime | null;
 
-    @OneToMany(type => Message, uaseco_messages => uaseco_messages.player, {
+    @OneToMany(type => AlyaMessage, uaseco_messages => uaseco_messages.player, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_messages: Message[];
+    uaseco_messages: AlyaMessage[];
 
 }

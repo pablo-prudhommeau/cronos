@@ -23,21 +23,19 @@ $theme-colors: (primary: #308ee0, secondary: #e5e5e5, success: #00ce68, info: #8
 $colors: (blue: $blue, indigo: $indigo, purple: $purple, pink: $pink, red: $red, orange: $orange, yellow: $yellow, green: $green, teal: $teal, cyan: $cyan, white: $white, white-smoke: #f3f5f6, gray: $gray-600, gray-light: #8ba2b5, gray-lightest: #f7f7f9, gray-dark: #292b2c);
 ////////// COLOR SYSTEM //////////
 ////////// COLOR VARIABLES //////////
+$body-color: #fdfdfd;
 $content-bg: lighten($darkgray, 4%);
 $footer-bg: $content-bg;
-$footer-color: color(dark);
-$border-color: #373737;
+$footer-color: #fdfdfd;
+$border-color: #111111;
 ////////// COLOR VARIABLES //////////
 ////////// SOCIAL COLORS //////////
 $social-colors: (twitter: #1da1f2, facebook: #3b579d, google: #dc4a38, linkedin: #0177b4, pinterest: #cc2127, youtube: #e52d27, github: #333333, behance: #1769ff, dribbble: #ea4c89, reddit: #ff4500);
 ////////// SOCIAL COLORS //////////
 ////////// FONTS //////////
 $type-1: 'Poppins', sans-serif;
-$type-2: $type-1;
-$type-3: 'Raleway', serif;
-$default-font-size: 12px;
+$default-font-size: 13px;
 $text-muted: #858585;
-$body-color: #fdfdfd;
 ////////// FONT VARIABLES //////////
 ////////// SIDEBAR ////////
 $sidebar-width-lg: 255px;

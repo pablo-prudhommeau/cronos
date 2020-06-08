@@ -1,11 +1,11 @@
 import {Column, Entity, Index, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
-import {Map} from './map.entity';
+import {UasecoMap} from './uaseco-map.entity';
 
 @Entity('uaseco_authors', {schema: process.env.DB_NAME})
 @Index('Login', ['login'], {unique: true})
 @Index('Continent', ['continent'])
 @Index('Nation', ['nation'])
-export class Author {
+export class UasecoAuthor {
 
     @PrimaryGeneratedColumn({
         type: 'mediumint',
@@ -54,7 +54,7 @@ export class Author {
     })
     nation: string | null;
 
-    @OneToMany(type => Map, uaseco_maps => uaseco_maps.author, {onDelete: 'RESTRICT', onUpdate: 'RESTRICT'})
-    uaseco_mapss: Map[];
+    @OneToMany(type => UasecoMap, uaseco_maps => uaseco_maps.author, {onDelete: 'RESTRICT', onUpdate: 'RESTRICT'})
+    uaseco_mapss: UasecoMap[];
 
 }

@@ -2,21 +2,21 @@ import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConfigModule} from '../config/config.module';
 import {ConfigService} from '../config/config.service';
+import {AlyaMessage} from '../dal/alya/alya-message.entity';
+import {UasecoAuthor} from '../dal/uaseco/uaseco-author.entity';
+import {UasecoMapHistory} from '../dal/uaseco/uaseco-map-history.entity';
+import {UasecoMap} from '../dal/uaseco/uaseco-map.entity';
+import {UasecoPlayer} from '../dal/uaseco/uaseco-player.entity';
+import {UasecoPlaylist} from '../dal/uaseco/uaseco-playlist.entity';
+import {UasecoRanking} from '../dal/uaseco/uaseco-ranking.entity';
+import {UasecoRating} from '../dal/uaseco/uaseco-rating.entity';
+import {UasecoRecord} from '../dal/uaseco/uaseco-record.entity';
+import {UasecoSetting} from '../dal/uaseco/uaseco-setting.entity';
+import {UasecoTime} from '../dal/uaseco/uaseco-time.entity';
 import {GbxModule} from '../gbx/gbx.module';
-import {MapHistory} from '../gen/map-history.entity';
-import {Playlist} from '../gen/playlist.entity';
-import {Ranking} from '../gen/ranking.entity';
-import {Rating} from '../gen/rating.entity';
-import {Setting} from '../gen/setting.entity';
-import {Time} from '../gen/time.entity';
-import {Author} from '../map/author.entity';
-import {Map} from '../map/map.entity';
 import {MapModule} from '../map/map.module';
-import {Message} from '../message/message.entity';
 import {MessageModule} from '../message/message.module';
-import {Player} from '../player/player.entity';
 import {PlayerModule} from '../player/player.module';
-import {Record} from '../record/record.entity';
 import {RecordModule} from '../record/record.module';
 import {TelegramModule} from '../telegram/telegram.module';
 import {AppController} from './app.controller';
@@ -43,7 +43,7 @@ import {AppService} from './app.service';
                 username: configService.getString('DB_USERNAME'),
                 password: configService.getString('DB_PASSWORD'),
                 database: configService.getString('DB_NAME'),
-                entities: [MapHistory, Playlist, Ranking, Rating, Setting, Time, Author, Map, Message, Player, Record],
+                entities: [UasecoMapHistory, UasecoPlaylist, UasecoRanking, UasecoRating, UasecoSetting, UasecoTime, UasecoAuthor, UasecoMap, AlyaMessage, UasecoPlayer, UasecoRecord],
                 synchronize: false,
                 charset: 'utf8mb4'
             })

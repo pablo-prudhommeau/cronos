@@ -12,21 +12,23 @@
                     </div>
                 </div>
                 <div class="mb-5 mt-3">
-                    <h3 class="font-weight-medium text-right mb-0" *ngIf="currentMap !== undefined" [innerHTML]="currentMap.name | maniaplanetStyle"></h3>
+                    <h3 *ngIf="currentMap !== undefined" [innerHTML]="currentMap.name | maniaplanetStyle" class="font-weight-medium text-right mb-0"></h3>
                 </div>
-                <div class="row mb-2">
-                    <div class="col-sm-4">
-                        <i class="fa fa-address-book fa-fw icon-sm mr-1 align-middle" aria-hidden="true"></i>
-                        <span class="text-muted ml-1">Author</span>
+                <div class="current-map-statistics">
+                    <div class="row mb-3 current-map-statistics-line">
+                        <div class="col-4">
+                            <i aria-hidden="true" class="fa fa-address-book mr-1 align-middle current-map-statistics-icon"></i>
+                            <span class="current-map-statistics-key text-muted ml-1">Author</span>
+                        </div>
+                        <div *ngIf="currentMap !== undefined" [innerHTML]="currentMap.author.nickname | maniaplanetStyle" class="col-8 current-map-statistics-value"></div>
                     </div>
-                    <div class="col-sm-8" *ngIf="currentMap !== undefined" [innerHTML]="currentMap.author.nickname | maniaplanetStyle"></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-4">
-                        <i class="fa fa-smile-o fa-fw icon-sm mr-1 align-middle" aria-hidden="true"></i>
-                        <span class="text-muted ml-1">Top 1 local</span>
+                    <div class="row mb-3 current-map-statistics-line">
+                        <div class="col-4">
+                            <i aria-hidden="true" class="fas fa-award mr-1 align-middle"></i>
+                            <span class="current-map-statistics-key text-muted ml-1">Top 1 local</span>
+                        </div>
+                        <div *ngIf="getBestRecord() !== undefined" [innerHTML]="getBestRecord().player.nickname | maniaplanetStyle" class="col-8 current-map-statistics-value"></div>
                     </div>
-                    <div class="col-sm-8" *ngIf="getBestRecord() !== undefined" [innerHTML]="getBestRecord().player.nickname | maniaplanetStyle"></div>
                 </div>
             </div>
         </div>
@@ -43,16 +45,19 @@
                         <h3 class="text-right">Player chat</h3>
                     </div>
                 </div>
-                <div id="dashboard-chat" class="mt-3 chat-content pre-scrollable style-1">
-                    <div class="mb-2 chat-message" *ngFor="let message of messageList.slice().reverse();" id="chat-message-{{message.messageId}}" #chatMessage>
-                        <div class="chat-message-text" *ngIf="message.player !== null">
+                <div class="mt-3 chat-content pre-scrollable style-1" id="dashboard-chat">
+                    <div #chatMessage *ngFor="let message of messageList.slice().reverse();" class="pb-1 chat-message" id="chat-message-{{message.messageId}}">
+                        <div *ngIf="message.player !== null" class="chat-message-text">
                             <span [innerHTML]="message.player.nickname | maniaplanetStyle"></span> : <span [innerHTML]="message.message | maniaplanetStyle"></span>
                         </div>
-                        <div class="chat-message-text" *ngIf="message.player === null">
+                        <div *ngIf="message.player === null" class="chat-message-text">
                             <span [innerHTML]="message.message | maniaplanetStyle"></span>
                         </div>
-                        <div class="chat-message-datetime text-muted text-right pr-3">
-                            <span class="fa fa-clock-o"></span> {{message.insertedOn | date:'HH:mm:ss - dd/MM/yyyy'}}
+                        <div class="chat-message-datetime text-muted text-right">
+                            <div class="chat-message-datetime-icon far fa-clock"></div>
+                            <div class="chat-message-datetime-value">{{message.insertedOn | date:'dd/MM/yyyy'}}</div>
+                            <div class="chat-message-datetime-separator">at</div>
+                            <div class="chat-message-datetime-value">{{message.insertedOn | date:'HH:mm:ss'}}</div>
                         </div>
                     </div>
                 </div>
@@ -66,7 +71,7 @@
         <div class="card card-player-list">
             <div class="card-body">
                 <h3>Online players</h3>
-                <p class="text-muted mt-3 mb-0" *ngIf="onlinePlayerList.length == 0">
+                <p *ngIf="onlinePlayerList.length == 0" class="text-muted mt-3 mb-0">
                     No player connected
                 </p>
                 <ul class="online-player-list">
@@ -78,50 +83,72 @@
         </div>
     </div>
 </div>
+
 <div class="row">
-    <div class="col-lg-4 grid-margin stretch-card">
+    <div class="col-xl-4 grid-margin stretch-card">
         <div class="card card-player-connection-day">
             <div class="card-body">
                 <h3>Players connected today</h3>
-                <p class="text-muted mt-3 mb-0" *ngIf="getPlayerConnectionDay().length == 0">
+                <p *ngIf="getPlayerConnectionDay().length == 0" class="text-muted mt-3 mb-0">
                     No player connected today
                 </p>
                 <ul class="player-connection-list">
-                    <li class="player-connection-item" *ngFor="let player of getPlayerConnectionDay()">
-                        <span [innerHTML]="player.nickname | maniaplanetStyle"></span>
-                        <span class="text-muted player-connection-last-visit"> Last visit on {{player.lastVisit | date:'dd/MM/yyyy'}} at {{player.lastVisit | date:'HH:mm:ss'}}</span>
+                    <li *ngFor="let player of getPlayerConnectionDay()" class="player-connection-item row">
+                        <div class="col-6">
+                            <span [innerHTML]="player.nickname | maniaplanetStyle"></span>
+                        </div>
+                        <div class="col-6 text-muted player-connection-last-visit">
+                            <div class="player-connection-last-visit-icon far fa-clock"></div>
+                            <div class="player-connection-last-visit-value">{{player.lastVisit | date:'dd/MM/yyyy'}}</div>
+                            <div class="player-connection-last-visit-separator">at</div>
+                            <div class="player-connection-last-visit-value">{{player.lastVisit | date:'HH:mm:ss'}}</div>
+                        </div>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 grid-margin stretch-card">
+    <div class="col-xl-4 grid-margin stretch-card">
         <div class="card card-player-connection-week">
             <div class="card-body">
                 <h3>Players connected this week</h3>
-                <p class="text-muted mt-3 mb-0" *ngIf="getPlayerConnectionWeek().length == 0">
+                <p *ngIf="getPlayerConnectionWeek().length == 0" class="text-muted mt-3 mb-0">
                     No player connected this week
                 </p>
                 <ul class="player-connection-list">
-                    <li class="player-connection-item" *ngFor="let player of getPlayerConnectionWeek()">
-                        <span [innerHTML]="player.nickname | maniaplanetStyle"></span>
-                        <span class="text-muted player-connection-last-visit"> Last visit on {{player.lastVisit | date:'dd/MM/yyyy'}} at {{player.lastVisit | date:'HH:mm:ss'}}</span>
+                    <li *ngFor="let player of getPlayerConnectionWeek()" class="player-connection-item row">
+                        <div class="col-6">
+                            <span [innerHTML]="player.nickname | maniaplanetStyle"></span>
+                        </div>
+                        <div class="col-6 text-muted player-connection-last-visit">
+                            <div class="player-connection-last-visit-icon far fa-clock"></div>
+                            <div class="player-connection-last-visit-value">{{player.lastVisit | date:'dd/MM/yyyy'}}</div>
+                            <div class="player-connection-last-visit-separator">at</div>
+                            <div class="player-connection-last-visit-value">{{player.lastVisit | date:'HH:mm:ss'}}</div>
+                        </div>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 grid-margin stretch-card">
+    <div class="col-xl-4 grid-margin stretch-card">
         <div class="card card-player-connection-month">
             <div class="card-body">
                 <h3>Players connected this month</h3>
-                <p class="text-muted mt-3 mb-0" *ngIf="getPlayerConnectionMonth().length == 0">
+                <p *ngIf="getPlayerConnectionMonth().length == 0" class="text-muted mt-3 mb-0">
                     No player connected this month
                 </p>
                 <ul class="player-connection-list">
-                    <li class="player-connection-item" *ngFor="let player of getPlayerConnectionMonth()">
-                        <span [innerHTML]="player.nickname | maniaplanetStyle"></span>
-                        <span class="text-muted player-connection-last-visit"> Last visit on {{player.lastVisit | date:'dd/MM/yyyy'}} at {{player.lastVisit | date:'HH:mm:ss'}}</span>
+                    <li *ngFor="let player of getPlayerConnectionMonth()" class="player-connection-item row">
+                        <div class="col-6">
+                            <span [innerHTML]="player.nickname | maniaplanetStyle"></span>
+                        </div>
+                        <div class="col-6 text-muted player-connection-last-visit">
+                            <div class="player-connection-last-visit-icon far fa-clock"></div>
+                            <div class="player-connection-last-visit-value">{{player.lastVisit | date:'dd/MM/yyyy'}}</div>
+                            <div class="player-connection-last-visit-separator">at</div>
+                            <div class="player-connection-last-visit-value">{{player.lastVisit | date:'HH:mm:ss'}}</div>
+                        </div>
                     </li>
                 </ul>
             </div>

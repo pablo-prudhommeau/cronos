@@ -2,11 +2,11 @@ import {Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import * as log4js from 'log4js';
 import {Logger} from 'log4js';
-import {Map} from './map.entity';
-import {Repository} from 'typeorm';
 import {Observable} from 'rxjs';
+import {Repository} from 'typeorm';
+import {UasecoMap} from '../dal/uaseco/uaseco-map.entity';
 import {GbxService} from '../gbx/gbx.service';
-import {GbxMap} from '../gbx/gbx-map';
+import {GbxMap} from '../gbx/structs/gbx-map';
 
 @Injectable()
 export class MapService {
@@ -14,14 +14,14 @@ export class MapService {
     private logger: Logger = log4js.getLogger();
 
     constructor(
-        @InjectRepository(Map) private readonly mapRepository: Repository<Map>,
-        private readonly gbxService: GbxService
+            @InjectRepository(UasecoMap) private readonly mapRepository: Repository<UasecoMap>,
+            private readonly gbxService: GbxService
     ) {}
 
-    subscribeToMapChange(): Observable<Map> {
-        return new Observable<Map>(observer => {
+    subscribeToMapChange(): Observable<UasecoMap> {
+        return new Observable<UasecoMap>(observer => {
             GbxService.beginMapSubject.subscribe(async (gbxMap: GbxMap) => {
-                const fetchedMap: Map = await this.mapRepository.findOne({
+                const fetchedMap: UasecoMap = await this.mapRepository.findOne({
                     relations: ['author'],
                     where: {
                         uid: gbxMap.UId
@@ -32,10 +32,10 @@ export class MapService {
         });
     }
 
-    getCurrentMap(): Promise<Map> {
-        return new Promise<Map>(async resolve => {
+    getCurrentMap(): Promise<UasecoMap> {
+        return new Promise<UasecoMap>(async resolve => {
             const gbxMap = await this.gbxService.getCurrentGbxMap();
-            const fetchedMap: Map = await this.mapRepository.findOne({
+            const fetchedMap: UasecoMap = await this.mapRepository.findOne({
                 relations: ['author'],
                 where: {
                     uid: gbxMap.UId

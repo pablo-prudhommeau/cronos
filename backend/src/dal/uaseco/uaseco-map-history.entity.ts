@@ -1,19 +1,19 @@
 import {Column, Entity, Index, JoinColumn, OneToOne} from 'typeorm';
-import {Map} from '../map/map.entity';
+import {UasecoMap} from './uaseco-map.entity';
 
 @Entity('uaseco_maphistory', {schema: process.env.DB_NAME})
 @Index('MapId', ['map'])
 @Index('Date', ['date'])
-export class MapHistory {
+export class UasecoMapHistory {
 
-    @OneToOne(type => Map, uaseco_maps => uaseco_maps.uaseco_maphistorys, {
+    @OneToOne(type => UasecoMap, uaseco_maps => uaseco_maps.uaseco_maphistorys, {
         primary: true,
         nullable: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     @JoinColumn({name: 'MapId'})
-    map: Map | null;
+    map: UasecoMap | null;
 
     @Column('datetime', {
         nullable: true,

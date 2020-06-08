@@ -6,21 +6,13 @@
     overflow-x: hidden;
 }
 
-.chat-message {
-    display: flex;
-    justify-content: space-between;
+.input-group i {
+    padding: 0.48rem 0.2em 0 0.2em;
+    font-size: 1.15em;
+    color: $darkgray;
 }
 
-.chat-message-datetime {
-    font-family: $type-1;
-    font-weight: 100;
-    min-width: 170px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 10px;
-}
-
-.chat-message-text {
-    min-width: 50%;
+.chat-input {
+    height: 2.5rem;
+    font-size: 1.15em;
 }

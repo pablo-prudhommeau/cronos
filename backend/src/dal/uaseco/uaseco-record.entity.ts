@@ -1,32 +1,32 @@
 import {Column, Entity, Index, JoinColumn, OneToOne} from 'typeorm';
-import {Map} from '../map/map.entity';
-import {Player} from '../player/player.entity';
+import {UasecoMap} from './uaseco-map.entity';
+import {UasecoPlayer} from './uaseco-player.entity';
 
-@Entity('uaseco_times', {schema: process.env.DB_NAME})
+@Entity('uaseco_records', {schema: process.env.DB_NAME})
 @Index('MapId', ['map'])
 @Index('PlayerId', ['player'])
 @Index('GamemodeId', ['gamemodeId'])
 @Index('Date', ['date'])
 @Index('Score', ['score'])
-export class Time {
+export class UasecoRecord {
 
-    @OneToOne(type => Map, uaseco_maps => uaseco_maps.uaseco_times, {
+    @OneToOne(type => UasecoMap, uaseco_maps => uaseco_maps.uaseco_records, {
         primary: true,
         nullable: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     @JoinColumn({name: 'MapId'})
-    map: Map | null;
+    map: UasecoMap | null;
 
-    @OneToOne(type => Player, uaseco_players => uaseco_players.uaseco_times, {
+    @OneToOne(type => UasecoPlayer, uaseco_players => uaseco_players.uaseco_records, {
         primary: true,
         nullable: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     @JoinColumn({name: 'PlayerId'})
-    player: Player | null;
+    player: UasecoPlayer | null;
 
     @Column('tinyint', {
         nullable: false,
@@ -44,12 +44,11 @@ export class Time {
     date: Date | null;
 
     @Column('int', {
-        nullable: false,
-        primary: true,
+        nullable: true,
         default: '0',
         name: 'Score'
     })
-    score: number;
+    score: number | null;
 
     @Column('text', {
         nullable: true,

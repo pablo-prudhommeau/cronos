@@ -1,17 +1,17 @@
 import {Column, Entity, JoinColumn, OneToOne} from 'typeorm';
-import {Player} from '../player/player.entity';
+import {UasecoPlayer} from './uaseco-player.entity';
 
 @Entity('uaseco_rankings', {schema: process.env.DB_NAME})
-export class Ranking {
+export class UasecoRanking {
 
-    @OneToOne(type => Player, uaseco_players => uaseco_players.uaseco_rankings, {
+    @OneToOne(type => UasecoPlayer, uaseco_players => uaseco_players.uaseco_rankings, {
         primary: true,
         nullable: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     @JoinColumn({name: 'PlayerId'})
-    player: Player | null;
+    player: UasecoPlayer | null;
 
     @Column('int', {
         nullable: true,

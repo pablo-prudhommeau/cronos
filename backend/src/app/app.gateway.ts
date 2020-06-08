@@ -3,14 +3,14 @@ import * as log4js from 'log4js';
 import {Logger} from 'log4js';
 import {Observable, OperatorFunction} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {AlyaMessage} from '../dal/alya/alya-message.entity';
+import {UasecoMap} from '../dal/uaseco/uaseco-map.entity';
+import {UasecoPlayer} from '../dal/uaseco/uaseco-player.entity';
+import {UasecoRecord} from '../dal/uaseco/uaseco-record.entity';
 import {GbxService} from '../gbx/gbx.service';
-import {Map} from '../map/map.entity';
 import {MapService} from '../map/map.service';
-import {Message} from '../message/message.entity';
 import {MessageService} from '../message/message.service';
-import {Player} from '../player/player.entity';
 import {PlayerService} from '../player/player.service';
-import {Record} from '../record/record.entity';
 import {RecordService} from '../record/record.service';
 import {AppService} from './app.service';
 
@@ -29,9 +29,9 @@ export class AppGateway {
     ) {}
 
     @SubscribeMessage('player/connect')
-    subscribeToPlayerConnection(): Observable<WsResponse<Player>> {
+    subscribeToPlayerConnection(): Observable<WsResponse<UasecoPlayer>> {
         const event = 'player/connect';
-        const mapPlayerToWsResponse: OperatorFunction<Player, WsResponse> = map((player: Player) => {
+        const mapPlayerToWsResponse: OperatorFunction<UasecoPlayer, WsResponse> = map((player: UasecoPlayer) => {
             const wsResponse: WsResponse = {
                 event,
                 data: player
@@ -42,9 +42,9 @@ export class AppGateway {
     }
 
     @SubscribeMessage('player/disconnect')
-    subscribeToPlayerDisconnection(): Observable<WsResponse<Player>> {
+    subscribeToPlayerDisconnection(): Observable<WsResponse<UasecoPlayer>> {
         const event = 'player/disconnect';
-        const mapPlayerToWsResponse: OperatorFunction<Player, WsResponse> = map((player: Player) => {
+        const mapPlayerToWsResponse: OperatorFunction<UasecoPlayer, WsResponse> = map((player: UasecoPlayer) => {
             const wsResponse: WsResponse = {
                 event,
                 data: player
@@ -55,22 +55,22 @@ export class AppGateway {
     }
 
     @SubscribeMessage('player/message')
-    subscribeToPlayerMessage(): Observable<WsResponse<Message>> {
+    subscribeToPlayerMessage(): Observable<WsResponse<AlyaMessage>> {
         const event = 'player/message';
-        const mapGbxPlayerChatToWsResponse: OperatorFunction<Message, WsResponse> = map((message: Message) => {
+        const mapGbxPlayerChatToWsResponse: OperatorFunction<AlyaMessage, WsResponse> = map((message: AlyaMessage) => {
             const wsResponse: WsResponse = {
                 event,
                 data: message
             };
             return wsResponse;
         });
-        return this.playerService.subscribeToPlayerMessage().pipe(mapGbxPlayerChatToWsResponse);
+        return this.messageService.subscribeToPlayerMessage().pipe(mapGbxPlayerChatToWsResponse);
     }
 
     @SubscribeMessage('map/change')
-    subscribeToCurrentMap(): Observable<WsResponse<Map>> {
+    subscribeToCurrentMap(): Observable<WsResponse<UasecoMap>> {
         const event = 'map/change';
-        const mapMapToWsResponse: OperatorFunction<Map, WsResponse> = map((currentMap: Map) => {
+        const mapMapToWsResponse: OperatorFunction<UasecoMap, WsResponse> = map((currentMap: UasecoMap) => {
             const wsResponse: WsResponse = {
                 event,
                 data: currentMap
@@ -81,27 +81,27 @@ export class AppGateway {
     }
 
     @SubscribeMessage('player/list')
-    async getPlayerList(): Promise<Player[]> {
+    async getPlayerList(): Promise<UasecoPlayer[]> {
         return this.playerService.getPlayerList();
     }
 
     @SubscribeMessage('player/online/list')
-    async getOnlinePlayerList(): Promise<Player[]> {
+    async getOnlinePlayerList(): Promise<UasecoPlayer[]> {
         return this.playerService.getOnlinePlayerList();
     }
 
     @SubscribeMessage('map/record/list')
-    async getMapRecordList(client, data: any): Promise<Record[]> {
+    async getMapRecordList(client, data: any): Promise<UasecoRecord[]> {
         return this.recordService.getRecordList(data.mapId);
     }
 
     @SubscribeMessage('message/list')
-    async getMessageList(client, data: any): Promise<Message[]> {
+    async getMessageList(client, data: any): Promise<AlyaMessage[]> {
         return this.messageService.getMessageList(data.messageNumber);
     }
 
     @SubscribeMessage('map/current')
-    async getCurrentMap(): Promise<Map> {
+    async getCurrentMap(): Promise<UasecoMap> {
         return this.mapService.getCurrentMap();
     }
 

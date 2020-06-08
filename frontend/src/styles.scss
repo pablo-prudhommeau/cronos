@@ -1,11 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap";
 @import "~compass-mixins/lib/compass";
 @import "~compass-mixins/lib/animate";
+
 $mdi-font-path: "~@mdi/font/fonts";
 @import "~@mdi/font/scss/materialdesignicons";
-$fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
+
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
 @import './assets/styles/variables';
 @import "./assets/styles/fonts";
 @import "./assets/styles/functions";
@@ -49,4 +54,7 @@ $fa-font-path: "~font-awesome/fonts";
 @import "./assets/styles/utilities";
 @import "./assets/styles/demo";
 @import "./assets/styles/scrollbars";
-/* You can add global styles to this file, and also import other style files */
+
+@import "./assets/styles/app/variables";
+@import "./assets/styles/app/fonts";
+@import "./assets/styles/app/chat";

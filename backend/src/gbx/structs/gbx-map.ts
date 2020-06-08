@@ -5,11 +5,11 @@ export class GbxMap {
     Author: string;
     Environnement: string;
     Mood: string;
-    BronzeTime: number
-    SilverTime: number
-    GoldTime: number
-    AuthorTime: number
-    CopperPrice: number
+    BronzeTime: number;
+    SilverTime: number;
+    GoldTime: number;
+    AuthorTime: number;
+    CopperPrice: number;
     LapRace: boolean;
     NbLaps: number;
     NbCheckpoints: number;

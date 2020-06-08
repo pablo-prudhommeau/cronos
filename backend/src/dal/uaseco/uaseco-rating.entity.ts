@@ -1,31 +1,31 @@
 import {Column, Entity, Index, JoinColumn, OneToOne} from 'typeorm';
-import {Map} from '../map/map.entity';
-import {Player} from '../player/player.entity';
+import {UasecoMap} from './uaseco-map.entity';
+import {UasecoPlayer} from './uaseco-player.entity';
 
 @Entity('uaseco_ratings', {schema: process.env.DB_NAME})
 @Index('MapId', ['map'])
 @Index('PlayerId', ['player'])
 @Index('Date', ['date'])
 @Index('Score', ['score'])
-export class Rating {
+export class UasecoRating {
 
-    @OneToOne(type => Map, uaseco_maps => uaseco_maps.uaseco_ratings, {
+    @OneToOne(type => UasecoMap, uaseco_maps => uaseco_maps.uaseco_ratings, {
         primary: true,
         nullable: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     @JoinColumn({name: 'MapId'})
-    map: Map | null;
+    map: UasecoMap | null;
 
-    @OneToOne(type => Player, uaseco_players => uaseco_players.uaseco_ratings, {
+    @OneToOne(type => UasecoPlayer, uaseco_players => uaseco_players.uaseco_ratings, {
         primary: true,
         nullable: false,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     @JoinColumn({name: 'PlayerId'})
-    player: Player | null;
+    player: UasecoPlayer | null;
 
     @Column('timestamp', {
         nullable: true,

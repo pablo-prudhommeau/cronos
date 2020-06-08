@@ -1,13 +1,13 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {MapService} from './map.service';
-import {Map} from './map.entity';
+import {UasecoMap} from '../dal/uaseco/uaseco-map.entity';
 import {GbxModule} from '../gbx/gbx.module';
+import {MapService} from './map.service';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            Map
+            UasecoMap
         ]),
         GbxModule
     ],

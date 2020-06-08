@@ -1,21 +1,15 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" (click)="toggleOffCanvas()">
+            <a (click)="toggleOffCanvas()" class="nav-link" routerLink="/dashboard" routerLinkActive="active">
                 <i class="menu-icon mdi mdi-television"></i>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" routerLink="/chat" routerLinkActive="active" (click)="toggleOffCanvas()">
+            <a (click)="toggleOffCanvas()" class="nav-link" routerLink="/chat" routerLinkActive="active">
                 <i class="menu-icon mdi mdi-message"></i>
                 <span class="menu-title">Chat</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/tools" routerLinkActive="active" (click)="toggleOffCanvas()">
-                <i class="menu-icon mdi mdi-wrench"></i>
-                <span class="menu-title">Tools</span>
             </a>
         </li>
     </ul>

@@ -4,7 +4,6 @@ import {Logger} from 'log4js';
 import TelegramBot from 'node-telegram-bot-api';
 import {Subject} from 'rxjs';
 import {ConfigService} from '../config/config.service';
-import {Player} from '../player/player.entity';
 
 @Injectable()
 export class TelegramService {
@@ -23,7 +22,6 @@ export class TelegramService {
         this.telegramBot = new TelegramBot(token, {polling: true});
         this.telegramBot.onText(/(.+)/, (msg, match) => {
             this.logger.log(msg + ' - ' + match);
-            const chatId = msg.chat.id;
             const resp = match[1];
             this.telegramMessageSubject.next(resp);
         });

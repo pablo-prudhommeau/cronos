@@ -1,46 +1,49 @@
 @import '../../styles';
 
-.card-chat {
-    .chat-content {
-        height: 300px;
-        overflow-x: hidden;
-        font-size: 0.8rem;
-    }
-    .chat-message {
-        display: flex;
-        justify-content: space-between;
-    }
-    .chat-message-datetime {
-        font-family: $type-1;
-        font-weight: 100;
-        min-width: 170px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-left: 10px;
-    }
-    .chat-message-text {
-        min-width: 50%;
-    }
+.chat-content {
+    height: 300px;
+    overflow-x: hidden;
 }
 
-.card-player-list {
-    .player-connection-list {
-        font-size: 0.9rem;
-    }
-}
-
-.player-connection-last-visit {
-    font-family: $type-1;
-    font-weight: 100;
-    font-size: 0.7rem;
-}
-
-li.player-connection-item {
-    justify-content: space-between;
+.current-map-statistics-line {
     display: flex;
+    align-items: center;
+
+    i {
+        font-size: 1.7em;
+        width: 1em;
+    }
+
+    .current-map-statistics-key {
+        font-size: 1.2em;
+    }
+
+    .current-map-statistics-value {
+        font-size: 1.5em;
+    }
 }
 
 ul.player-connection-list {
     padding-left: 0;
+
+    .player-connection-last-visit {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .player-connection-last-visit-value {
+            font-family: $font-monospace;
+            color: $text-pre-muted;
+            letter-spacing: -1.2px;
+            font-size: 13.5px;
+        }
+
+        .player-connection-last-visit-separator {
+            padding: 0 0.3em 0 0.4em;
+        }
+
+        .player-connection-last-visit-icon {
+            margin: 0 0.4em 0 0;
+        }
+    }
 }

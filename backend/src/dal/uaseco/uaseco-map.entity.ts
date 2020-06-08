@@ -1,10 +1,10 @@
 import {Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {Author} from './author.entity';
-import {MapHistory} from '../gen/map-history.entity';
-import {Playlist} from '../gen/playlist.entity';
-import {Rating} from '../gen/rating.entity';
-import {Record} from '../record/record.entity';
-import {Time} from '../gen/time.entity';
+import {UasecoAuthor} from './uaseco-author.entity';
+import {UasecoMapHistory} from './uaseco-map-history.entity';
+import {UasecoPlaylist} from './uaseco-playlist.entity';
+import {UasecoRating} from './uaseco-rating.entity';
+import {UasecoRecord} from './uaseco-record.entity';
+import {UasecoTime} from './uaseco-time.entity';
 
 @Entity('uaseco_maps', {schema: process.env.DB_NAME})
 @Index('Uid', ['uid'], {unique: true})
@@ -19,7 +19,7 @@ import {Time} from '../gen/time.entity';
 @Index('MultiLap', ['multiLap'])
 @Index('NbLaps', ['nbLaps'])
 @Index('NbCheckpoints', ['nbCheckpoints'])
-export class Map {
+export class UasecoMap {
 
     @PrimaryGeneratedColumn({
         type: 'mediumint',
@@ -56,12 +56,12 @@ export class Map {
     })
     comment: string | null;
 
-    @ManyToOne(type => Author, uaseco_authors => uaseco_authors.uaseco_mapss, {
+    @ManyToOne(type => UasecoAuthor, uaseco_authors => uaseco_authors.uaseco_mapss, {
         onDelete: 'RESTRICT',
         onUpdate: 'RESTRICT'
     })
     @JoinColumn({name: 'AuthorId'})
-    author: Author | null;
+    author: UasecoAuthor | null;
 
     @Column('int', {
         nullable: true,
@@ -216,25 +216,25 @@ export class Map {
     })
     songUrl: string | null;
 
-    @OneToMany(type => MapHistory, uaseco_maphistory => uaseco_maphistory.map, {
+    @OneToMany(type => UasecoMapHistory, uaseco_maphistory => uaseco_maphistory.map, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_maphistorys: MapHistory[];
+    uaseco_maphistorys: UasecoMapHistory[];
 
-    @OneToMany(type => Playlist, uaseco_playlist => uaseco_playlist.map, {
+    @OneToMany(type => UasecoPlaylist, uaseco_playlist => uaseco_playlist.map, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    uaseco_playlists: Playlist[];
+    uaseco_playlists: UasecoPlaylist[];
 
-    @OneToOne(type => Rating, uaseco_ratings => uaseco_ratings.map, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-    uaseco_ratings: Rating | null;
+    @OneToOne(type => UasecoRating, uaseco_ratings => uaseco_ratings.map, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    uaseco_ratings: UasecoRating | null;
 
-    @OneToOne(type => Record, uaseco_records => uaseco_records.map, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-    uaseco_records: Record | null;
+    @OneToOne(type => UasecoRecord, uaseco_records => uaseco_records.map, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    uaseco_records: UasecoRecord | null;
 
-    @OneToOne(type => Time, uaseco_times => uaseco_times.map, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-    uaseco_times: Time | null;
+    @OneToOne(type => UasecoTime, uaseco_times => uaseco_times.map, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    uaseco_times: UasecoTime | null;
 
 }

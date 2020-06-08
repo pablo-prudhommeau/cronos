@@ -3,15 +3,18 @@
         <div class="card card-map">
             <div class="card-body">
                 <div class="mt-3 chat-content pre-scrollable style-1">
-                    <div class="mb-2 chat-message" *ngFor="let message of messageList.slice().reverse();" id="chat-message-{{message.messageId}}" #chatMessage>
-                        <div class="chat-message-text" *ngIf="message.player !== null">
+                    <div #chatMessage *ngFor="let message of messageList.slice().reverse();" class="pb-1 chat-message" id="chat-message-{{message.messageId}}">
+                        <div *ngIf="message.player !== null" class="chat-message-text">
                             <span [innerHTML]="message.player.nickname | maniaplanetStyle"></span> : <span [innerHTML]="message.message | maniaplanetStyle"></span>
                         </div>
-                        <div class="chat-message-text" *ngIf="message.player === null">
+                        <div *ngIf="message.player === null" class="chat-message-text">
                             <span [innerHTML]="message.message | maniaplanetStyle"></span>
                         </div>
-                        <div class="chat-message-datetime text-muted text-right pr-3">
-                            <span class="fa fa-clock-o"></span> {{message.insertedOn | date:'HH:mm:ss - dd/MM/yyyy'}}
+                        <div class="chat-message-datetime text-muted text-right">
+                            <div class="chat-message-datetime-icon far fa-clock"></div>
+                            <div class="chat-message-datetime-value">{{message.insertedOn | date:'dd/MM/yyyy'}}</div>
+                            <div class="chat-message-datetime-separator">at</div>
+                            <div class="chat-message-datetime-value">{{message.insertedOn | date:'HH:mm:ss'}}</div>
                         </div>
                     </div>
                 </div>
@@ -19,9 +22,9 @@
                     <div class="form-group mt-5">
                         <div class="input-group">
                             <span class="input-group-addon bg-warning" id="chat-message-addon">
-                                <i class="mdi mdi-comment-processing text-white"></i>
+                                <i class="far fa-comment-alt"></i>
                             </span>
-                            <input type="text" class="form-control border-light" placeholder="Type your message" aria-label="Type your message" aria-describedby="chat-message-addon" [(ngModel)]="messageForm.message" name="message"/>
+                            <input [(ngModel)]="messageForm.message" aria-describedby="chat-message-addon" aria-label="Type your message" class="form-control border-light chat-input" name="message" placeholder="Type your message" type="text"/>
                         </div>
                     </div>
                 </form>

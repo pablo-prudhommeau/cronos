@@ -1,13 +1,13 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
+import {AlyaMessage} from '../dal/alya/alya-message.entity';
 import {GbxModule} from '../gbx/gbx.module';
-import {Message} from './message.entity';
 import {MessageService} from './message.service';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            Message
+            AlyaMessage
         ]),
         GbxModule
     ],

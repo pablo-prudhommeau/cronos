@@ -1,8 +1,8 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {Player} from '../player/player.entity';
+import {UasecoPlayer} from '../uaseco/uaseco-player.entity';
 
 @Entity('alya_messages', {schema: process.env.DB_NAME})
-export class Message {
+export class AlyaMessage {
 
     @PrimaryGeneratedColumn({
         type: 'mediumint',
@@ -21,11 +21,11 @@ export class Message {
     })
     message: string;
 
-    @ManyToOne(type => Player, uaseco_players => uaseco_players.uaseco_messages, {
+    @ManyToOne(type => UasecoPlayer, uaseco_players => uaseco_players.uaseco_messages, {
         onDelete: 'RESTRICT',
         onUpdate: 'RESTRICT'
     })
     @JoinColumn({name: 'playerId'})
-    player: Player;
+    player: UasecoPlayer;
 
 }

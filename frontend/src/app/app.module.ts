@@ -15,7 +15,6 @@ import {GbxService} from '../gbx/gbx.service';
 import {ChatComponent} from './chat/chat.component';
 import {ManiaplanetStylePipe} from './pipes/maniaplanet-style.pipe';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ToolsComponent} from './tools/tools.component';
 import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
@@ -26,7 +25,6 @@ import {HttpClientModule} from '@angular/common/http';
         FooterComponent,
         DashboardComponent,
         ChatComponent,
-        ToolsComponent,
         ManiaplanetStylePipe
     ],
     imports: [

@@ -5,10 +5,10 @@ import * as log4js from 'log4js';
 import {Logger} from 'log4js';
 import {Subject} from 'rxjs';
 import {ConfigService} from '../config/config.service';
-import {GbxMap} from './gbx-map';
-import {GbxPlayer} from './gbx-player';
-import {GbxPlayerChat} from './gbx-player-chat';
-import {GbxPlayerInfo} from './gbx-player-info';
+import {GbxMap} from './structs/gbx-map';
+import {GbxPlayer} from './structs/gbx-player';
+import {GbxPlayerChat} from './structs/gbx-player-chat';
+import {GbxPlayerInfo} from './structs/gbx-player-info';
 
 @Injectable()
 export class GbxService {
@@ -116,6 +116,15 @@ export class GbxService {
                     return !isServer;
                 });
                 executor(gbxPlayerInfoList);
+            });
+        });
+    }
+
+    getPlayerInfo(login: string): Promise<GbxPlayerInfo> {
+        const client = this.client;
+        return new Promise(executor => {
+            client.query('GetPlayerInfo', [login]).then((gbxPlayerInfo: GbxPlayerInfo) => {
+                executor(gbxPlayerInfo);
             });
         });
     }
