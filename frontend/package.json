@@ -1,6 +1,6 @@
 {
-    "name": "alya-frontend",
-    "version": "0.0.0",
+    "name": "cronos-frontend",
+    "version": "0.1.0",
     "private": true,
     "scripts": {
         "build": "ng build",

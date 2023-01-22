@@ -1,7 +1,7 @@
 version: "2"
 services:
   app:
-    image: docker.nexus.nash.n3xus.xyz/alya:latest
+    image: docker.nexus.nash.n3xus.xyz/cronos:latest
     working_dir: /app
     volumes:
       - ./production.env:/app/backend/dist

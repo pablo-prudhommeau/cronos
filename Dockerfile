@@ -3,7 +3,7 @@ FROM alpine:latest
 RUN apk update && apk add --no-cache supervisor openjdk11-jre nginx nodejs npm
 
 COPY backend/ /app/backend/
-COPY frontend/dist/alya/ /app/frontend/
+COPY frontend/dist/cronos/ /app/frontend/
 
 COPY nginx-default.conf /etc/nginx/conf.d/default.conf
 RUN rm -rf /usr/share/nginx/html/*
