@@ -1,15 +1,15 @@
 <p align="center">
-  <a href="https://alya.n3xus.xyz">
-    <img src="https://alya.n3xus.xyz/assets/images/alya-mini.svg" alt="Bootstrap logo" width="150">
+  <a href="https://cronos.n3xus.xyz">
+    <img src="https://cronos.n3xus.xyz/assets/images/cronos-mini.svg" alt="Cronos logo" width="150">
   </a>
 </p>
 
-# Alya
-Web GUI manager for <a href="https://github.com/maniaplanet">Maniaplanet</a> trackmania server. Demo can be found <a href="https://alya.n3xus.xyz/dashboard">here</a>.
+# Cronos
+Web GUI manager for <a href="https://github.com/maniaplanet">Maniaplanet</a> trackmania server. Demo can be found <a href="https://cronos.n3xus.xyz/dashboard">here</a>.
 
 ## Status
-<a href="https://alya.n3xus.xyz/dashboard">
-    <img src="https://img.shields.io/website?label=Alya%20demo&down_color=lightgrey&down_message=offline&style=for-the-badge&up_color=green&up_message=online&url=https%3A%2F%2Falya.n3xus.xyz" alt="Alya demo"/>
+<a href="https://cronos.n3xus.xyz/dashboard">
+    <img src="https://img.shields.io/website?label=cronos%20demo&down_color=lightgrey&down_message=offline&style=for-the-badge&up_color=green&up_message=online&url=https%3A%2F%2Fcronos.n3xus.xyz" alt="Cronos demo"/>
 </a>
 <br/>
 <a href="https://appurl.io/ssGhNGwJ8">

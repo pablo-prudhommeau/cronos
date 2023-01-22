@@ -47,5 +47,5 @@ deploy-docker:
   stage: deploy
   script:
     - docker login -u $DOCKER_REPOSITORY_USERNAME -p $DOCKER_REPOSITORY_PASSWORD docker.nexus.nash.n3xus.xyz
-    - docker build -t docker.nexus.nash.n3xus.xyz/alya .
-    - docker push docker.nexus.nash.n3xus.xyz/alya
+    - docker build -t docker.nexus.nash.n3xus.xyz/cronos:$CI_COMMIT_REF_NAME .
+    - docker push docker.nexus.nash.n3xus.xyz/cronos:$CI_COMMIT_REF_NAME
