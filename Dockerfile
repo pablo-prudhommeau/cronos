@@ -1,8 +1,8 @@
-FROM alpine:latest
+FROM alpine:3.10.3
 
 RUN apk update && apk add --no-cache supervisor openjdk11-jre nginx nodejs npm
 
-COPY backend/ /app/backend/
+COPY backend/build /app/backend/
 COPY frontend/dist/cronos/ /app/frontend/
 
 COPY nginx-default.conf /etc/nginx/conf.d/default.conf

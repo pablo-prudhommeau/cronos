@@ -2,7 +2,7 @@ image: docker:stable
 
 cache:
   paths:
-    - backend/node_modules/
+    - backend/build/node_modules/
     - frontend/node_modules/
 
 variables:
@@ -18,19 +18,26 @@ stages:
   - deploy
 
 build-backend:
-  image: nestjs/cli:6.12.9
+  image: node:10.24.1
   stage: build
   artifacts:
     paths:
-      - backend
+      - backend/build/
   script:
     - cd backend
+    - npm install -g typescript@4.9.4
     - npm install
-    - nest build
-    - rm -fr src
+    - tsc
+    - find ./dist -name '*.map' -exec rm -fr {} +
+    - mkdir build
+    - mv -f node_modules/ build/
+    - mv -f dist/ build/
+  only:
+    - develop
+    - tags
 
 build-frontend:
-  image: node:10.20.1
+  image: node:10.24.1
   stage: build
   artifacts:
     paths:
@@ -39,6 +46,9 @@ build-frontend:
     - cd frontend
     - npm install
     - npm run build:prod
+  only:
+    - develop
+    - tags
 
 deploy-docker:
   dependencies:
@@ -47,5 +57,20 @@ deploy-docker:
   stage: deploy
   script:
     - docker login -u $DOCKER_REPOSITORY_USERNAME -p $DOCKER_REPOSITORY_PASSWORD docker.nexus.nash.n3xus.xyz
+    - docker build -t docker.nexus.nash.n3xus.xyz/cronos .
+    - docker push docker.nexus.nash.n3xus.xyz/cronos
+  only:
+    - develop
+    - tags
+
+deploy-docker-tag:
+  dependencies:
+    - build-backend
+    - build-frontend
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_REPOSITORY_USERNAME -p $DOCKER_REPOSITORY_PASSWORD docker.nexus.nash.n3xus.xyz
     - docker build -t docker.nexus.nash.n3xus.xyz/cronos:$CI_COMMIT_REF_NAME .
     - docker push docker.nexus.nash.n3xus.xyz/cronos:$CI_COMMIT_REF_NAME
+  only:
+    - tags
